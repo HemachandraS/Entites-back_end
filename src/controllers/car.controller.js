@@ -1,5 +1,5 @@
 const express = require("express");
-const Car = require("../models/product.model");
+const Car = require("../models/car.model.js");
 const router = express.Router();
 router.get("/", async (req, res) => {
   try {
@@ -7,20 +7,20 @@ router.get("/", async (req, res) => {
     let filter = (req.query.color || req.query.size)?{$and:[]}:{};
     if (req.query.color) {
       
-      filter["$and"].push({ product_color: { $eq: req.query.color } });
+      filter["$and"].push({ car_color: { $eq: req.query.color } });
     }
     if (req.query.size) {
       
-      filter["$and"].push({ product_size: { $eq: req.query.size } });
+      filter["$and"].push({ car_size: { $eq: req.query.size } });
     }
 
     // console.log(filter["$and"]);
     let page = req.query.page || 1;
-    let perPage = req.query.perPage || 10;
+    let perPage = req.query.perPage || 20;
     let skip = (page - 1) * perPage;
     let sortData = req.query.sort
       ? {
-          product_price: `${req.query.sort == "asc" ? 1 : -1}`,
+          car_price: `${req.query.sort == "asc" ? 1 : -1}`,
         }
       : null;
     // console.log(sortData, req.query.sort);
